@@ -1,0 +1,9 @@
+----------------image croping using js---------------
+
+https://www.cssscript.com/feature-rich-image-cropper-pure-javascript-cropper-js/
+
+---------------------------------------------------
+
+https://data-flair.training/blogs/project-in-python-colour-detection/
+
+https://appmaker.xyz/pwa-to-apk
