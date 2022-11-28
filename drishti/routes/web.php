@@ -14,11 +14,39 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('visitor/index');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::group([
+    'namespace' => 'App\Http\Controllers',
+    'middleware' => 'auth',
+    'prefix' => 'user',
+],function () {
+
+    Route::get('dashboard', [
+        'uses' => 'UserController@getHome',
+        'as' => 'dashboard'
+    ]);
+
+    Route::get('detect-color', [
+        'uses' => 'UserController@getCanvas',
+        'as' => 'colorDetect'
+    ]);
+
+    Route::get('history', [
+        'uses' => 'UserController@getHistory',
+        'as' => 'history'
+    ]);
+
+    Route::get('profile', [
+        'uses' => 'UserController@getProfile',
+        'as' => 'profile'
+    ]);
+
+});
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
