@@ -28,9 +28,19 @@ Route::group([
         'as' => 'dashboard'
     ]);
 
-    Route::get('detect-color', [
+    Route::get('detect-color/{id}', [
         'uses' => 'UserController@getCanvas',
         'as' => 'colorDetect'
+    ]);
+
+    Route::get('color-data', [
+        'uses' => 'UserController@setColorData',
+        'as' => 'setColorData'
+    ]);
+
+    Route::post('submit-image', [
+        'uses' => 'UserController@submitImage',
+        'as' => 'submitImage'
     ]);
 
     Route::get('history', [

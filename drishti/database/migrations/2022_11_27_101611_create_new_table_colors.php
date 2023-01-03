@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('image_id')->constrained('images');
             $table->string('colorname');
             $table->string('colorcode');
-            $table->string('colorpoint');
+            $table->string('colorpointx');
+            $table->string('colorpointy');
             $table->timestamps();
         });
     }
