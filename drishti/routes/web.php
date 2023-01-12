@@ -48,6 +48,16 @@ Route::group([
         'as' => 'history'
     ]);
 
+    Route::get('history/{id}', [
+        'uses' => 'UserController@showHistory',
+        'as' => 'showHistory'
+    ]);
+
+    Route::get('history/delete/{id}', [
+        'uses' => 'UserController@deleteHistory',
+        'as' => 'deleteHistory'
+    ]);
+
     Route::get('profile', [
         'uses' => 'UserController@getProfile',
         'as' => 'profile'

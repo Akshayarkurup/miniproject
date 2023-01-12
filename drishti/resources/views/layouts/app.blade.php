@@ -12,7 +12,7 @@
 
 
   <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" crossorigin="anonymous">
 
   <!-- Favicons -->
 
@@ -84,7 +84,7 @@
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
+    <!-- <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search"> -->
     <div class="navbar-nav">
       <div class="nav-item text-nowrap">
         <form method="POST" action="{{ route('logout') }}">
@@ -108,7 +108,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+              <a class="nav-link" type="button" data-toggle="modal" data-target="#exampleModal">
                 <span data-feather="layers" class="align-text-bottom"></span>
                 Detect Color
               </a>
@@ -119,24 +119,24 @@
                 History
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="{{ route('profile'); }}">
                 <span data-feather="bar-chart-2" class="align-text-bottom"></span>
                 Ishihara Test
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link" href="{{ route('profile'); }}">
                 <span data-feather="user" class="align-text-bottom"></span>
                 Profile
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="{{ route('profile'); }}">
                 <span data-feather="settings" class="align-text-bottom"></span>
                 Settings
               </a>
-            </li>
+            </li> -->
           </ul>
 
 
@@ -179,7 +179,12 @@
 
       <!-- The Modal -->
 
-
+            @php
+              if(Session::get('upmsg')){
+                  echo(Session::get('upmsg'));
+                  unset($_SESSION['upmsg']);
+              }
+            @endphp
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">{{ $head }}</h1>
@@ -207,10 +212,10 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form action="{{ route('submitImage') }}" method="POST" id="form" enctype="multipart/form-data">
+                <form action="{{ route('submitImage') }}" method="POST" enctype="multipart/form-data">
                   @csrf
                   @method('post')
-                  <input type="file" name="detectImg" id="detectImg" accept="image/*" required>
+                  <input type="file" name="detectImg" accept="image/*" required>
                   <button class="btn btn-secondary m-2" type="reset" title="Cancel">Cancel</button>
                   <button type="submit" class="btn btn-primary m-2" title="Save">Upload</button>
                 </form>
@@ -352,10 +357,10 @@
     </div>
   </div>
 
-
   <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" crossorigin="anonymous"></script>
   <script>
     feather.replace({

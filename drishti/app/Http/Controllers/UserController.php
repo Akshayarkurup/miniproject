@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Colors;
 use App\Models\Images;
+use Faker\Core\Color;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +13,9 @@ class UserController extends Controller
 {
     public function getHome()
     {
-        return view('user/dashboard');
+        $imageCount = Images::count();
+        $colorCount = Colors::count();
+        return view('user/dashboard', compact('imageCount','colorCount'));
     }
 
     public function getCanvas($id)
@@ -45,24 +48,54 @@ class UserController extends Controller
     public function submitImage(Request $request)
     {
         try {
-            $images = new Images();
             if ($request->hasFile('detectImg')) 
             {
+                $image = new Images();
                 $img = $request->file('detectImg');
                 $imageName = 'images/' . time() . "." . $img->extension();
-                $images->img = $imageName;
-                $images->user_id = Auth::id();
+                $image->img = $imageName;
+                $image->user_id = Auth::id();
                 Storage::put('public/' . $imageName, file_get_contents($img));
+                $image->save();
             }
-            $images->save();
-            return redirect()->route('colorDetect',['id'=>$images->id]);
+            return redirect()->route('colorDetect',['id'=>$image->id]);
         } catch (\Throwable $th) {
-            return redirect()->back();
+            return redirect()->back()->with(['upmsg'=>"<script>alert('Something went wrong');</script>"]);
         }
     }
 
     public function getHistory()
     {
-        return view('user/history');
+        $count = array();
+        $images = Images::where('user_id', Auth::id())->get();
+        foreach ($images as $img) {
+            $c = Colors::where('image_id', $img->id)->count(); 
+            array_push($count,$c); 
+        }
+        return view('user/history', compact('images','count'));
+    }
+
+    public function deleteHistory($id)
+    {
+        try
+        {
+            $image = Images::findorFail($id);
+            if($image->user_id == Auth::id()){
+                $image->delete();
+                return redirect()->back()->with(['msg'=>"<script>alert('History deleted successfully');</script>"]);
+            }
+        }catch(\Throwable $th){
+            return redirect()->back()->with(['msg'=>"<script>alert('Something went wrong');</script>"]);
+        }
+    }
+
+    public function showHistory($id){
+        $image = Images::findorFail($id);
+        $colors = Colors::where('image_id', $image->id)->get(); 
+        return view('user/showHistory',compact('image','colors'));
+    }
+
+    public function getProfile(){
+        return view('user/profile');
     }
 } 
